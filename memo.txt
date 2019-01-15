@@ -1,0 +1,246 @@
+０．初期設定
+時刻同期
+#yum install ntp
+#ntpdate ntp.nict.jp
+
+(不要)Firewalldを停止
+#systemctl stop firewalld
+
+(不要)Seilnuxの確認
+#getenforce
+->Enforcing？ or Disabled？
+
+(不要)#vi /etc/sysconfig/selinux
+
+
+--------------------------------------------------------------------------------
+
+#SELINUX=enforcing
+
+SELINUX=disabled
+--------------------------------------------------------------------------------
+
+(不要)自動起動サービス確認
+#systemctl list-unit-files -t service
+
+
+１．LAMP環境構築
+#yum install httpd
+#yum install mariadb-server
+#yum install mariadb
+#yum install php
+#yum install php-mysql
+
+
+２．WEBサーバ設定
+２－１．ユーザーディレクトリ有効化
+#vi /etc/httpd/conf/httpd.conf
+以下2行追加
+--------------------------------------------------------------------------------
+UserDir enable
+UserDir public_html
+--------------------------------------------------------------------------------
+
+２－２．新規ユーザー追加時にユーザーディレクトリ(~/public_htmlディレクトリ)が自動で作成されるようにする 
+#mkdir /etc/skel/public_html
+
+２－３．ユーザー名を $user としたとき，以下をユーザー毎に設定してユーザーディレクトリを公開できるようにする．
+#chmod g+x /home/$user/
+#chown :apache /home/$user/
+以下は，/etc/skelにpublic_htmlを作成した場合は不要
+(不要)#mkdir /home/$user/public_html
+(不要)#chown $user:$user /home/$user/public_html
+
+ex)
+#adduser K177000; passwd K177000; chmod g+x /home/K177000; chown :apache /home/K177000
+...
+#adduser K177999; passwd K177999; chmod g+x /home/K177999; chown :apache /home/K177999
+
+２－４．WEBサーバの自動起動設定＆起動
+#systemctl enable httpd
+#systemctl start httpd
+
+
+３．DB設定
+３－１．文字コード設定
+#cp -p /usr/share/mysql/my-small.cnf  /etc/my.cnf.d/server.cnf
+#vi /etc/my.cnf.d/server.cnf
+--------------------------------------------------------------------------------
+[mysqld]
+#character-set-server=utf8mb4（絵文字対応）
+character-set-server = utf8
+[client]
+#default-character-set=utf8mb4（絵文字対応）
+default-character-set = utf8
+--------------------------------------------------------------------------------
+
+３－２．DBの自動起動設定＆起動
+#systemctl enable mariadb
+#systemctl start mariadb
+
+３－３．初期設定
+#/usr/bin/mysql_secure_installation
+
+３－４．接続確認
+#mysql -u root -p
+
+
+４．PHP設定
+４－１．初期設定
+#vi /etc/php.ini
+--------------------------------------------------------------------------------
+[PHP]
+error_reporting = E_ALL | E_STRICT
+display_errors on
+
+[Date]
+date.timezone="Asia/Tokyo"
+
+[mbstring]
+mbstring.language = Japanese
+mbstring.internal_encoding = UTF-8
+mbstring.http_input = auto
+mbstring.http_output = UTF-8
+mbstring.encoding_translation = On
+mbstring.detect_order = auto
+--------------------------------------------------------------------------------
+
+〇Appendix.ユーザー登録～ユーザーディレクトリ有効化コマンド(手動で頑張ろう)
+--------------------------------------------------------------------------------
+adduser K177001; passwd K177001; chmod g+x /home/K177001/; chown :apache /home/K177001
+adduser K177004; passwd K177004; chmod g+x /home/K177004/; chown :apache /home/K177004
+adduser K177006; passwd K177006; chmod g+x /home/K177006/; chown :apache /home/K177006
+adduser K177007; passwd K177007; chmod g+x /home/K177007/; chown :apache /home/K177007
+adduser K177010; passwd K177010; chmod g+x /home/K177010/; chown :apache /home/K177010
+adduser K177013; passwd K177013; chmod g+x /home/K177013/; chown :apache /home/K177013
+adduser K177014; passwd K177014; chmod g+x /home/K177014/; chown :apache /home/K177014
+adduser K177016; passwd K177016; chmod g+x /home/K177016/; chown :apache /home/K177016
+adduser K177017; passwd K177017; chmod g+x /home/K177017/; chown :apache /home/K177017
+adduser K177018; passwd K177018; chmod g+x /home/K177018/; chown :apache /home/K177018
+adduser K177019; passwd K177019; chmod g+x /home/K177019/; chown :apache /home/K177019
+adduser K177020; passwd K177020; chmod g+x /home/K177020/; chown :apache /home/K177020
+adduser K177022; passwd K177022; chmod g+x /home/K177022/; chown :apache /home/K177022
+adduser K177023; passwd K177023; chmod g+x /home/K177023/; chown :apache /home/K177023
+adduser K177026; passwd K177026; chmod g+x /home/K177026/; chown :apache /home/K177026
+adduser K177025; passwd K177025; chmod g+x /home/K177025/; chown :apache /home/K177025
+adduser K177030; passwd K177030; chmod g+x /home/K177030/; chown :apache /home/K177030
+adduser K177033; passwd K177033; chmod g+x /home/K177033/; chown :apache /home/K177033
+adduser K177034; passwd K177034; chmod g+x /home/K177034/; chown :apache /home/K177034
+adduser K177035; passwd K177035; chmod g+x /home/K177035/; chown :apache /home/K177035
+adduser K177042; passwd K177042; chmod g+x /home/K177042/; chown :apache /home/K177042
+adduser K177046; passwd K177046; chmod g+x /home/K177046/; chown :apache /home/K177046
+adduser K177047; passwd K177047; chmod g+x /home/K177047/; chown :apache /home/K177047
+adduser K177052; passwd K177052; chmod g+x /home/K177052/; chown :apache /home/K177052
+adduser K177053; passwd K177053; chmod g+x /home/K177053/; chown :apache /home/K177053
+adduser K177057; passwd K177057; chmod g+x /home/K177057/; chown :apache /home/K177057
+adduser K177059; passwd K177059; chmod g+x /home/K177059/; chown :apache /home/K177059
+adduser K177061; passwd K177061; chmod g+x /home/K177061/; chown :apache /home/K177061
+adduser K177065; passwd K177065; chmod g+x /home/K177065/; chown :apache /home/K177065
+adduser K177103; passwd K177103; chmod g+x /home/K177103/; chown :apache /home/K177103
+adduser K177114; passwd K177114; chmod g+x /home/K177114/; chown :apache /home/K177114
+adduser K177115; passwd K177115; chmod g+x /home/K177115/; chown :apache /home/K177115
+adduser K177116; passwd K177116; chmod g+x /home/K177116/; chown :apache /home/K177116
+adduser K177117; passwd K177117; chmod g+x /home/K177117/; chown :apache /home/K177117
+adduser K177118; passwd K177118; chmod g+x /home/K177118/; chown :apache /home/K177118
+adduser K177120; passwd K177120; chmod g+x /home/K177120/; chown :apache /home/K177120
+adduser K177122; passwd K177122; chmod g+x /home/K177122/; chown :apache /home/K177122
+adduser K177124; passwd K177124; chmod g+x /home/K177124/; chown :apache /home/K177124
+adduser K177125; passwd K177125; chmod g+x /home/K177125/; chown :apache /home/K177125
+adduser K177126; passwd K177126; chmod g+x /home/K177126/; chown :apache /home/K177126
+adduser K177129; passwd K177129; chmod g+x /home/K177129/; chown :apache /home/K177129
+adduser K177130; passwd K177130; chmod g+x /home/K177130/; chown :apache /home/K177130
+adduser K177131; passwd K177131; chmod g+x /home/K177131/; chown :apache /home/K177131
+adduser K167033; passwd K167033; chmod g+x /home/K167033/; chown :apache /home/K167033
+adduser K177141; passwd K177141; chmod g+x /home/K177141/; chown :apache /home/K177141
+adduser K177145; passwd K177145; chmod g+x /home/K177145/; chown :apache /home/K177145
+adduser K177149; passwd K177149; chmod g+x /home/K177149/; chown :apache /home/K177149
+adduser K177150; passwd K177150; chmod g+x /home/K177150/; chown :apache /home/K177150
+adduser K177154; passwd K177154; chmod g+x /home/K177154/; chown :apache /home/K177154
+adduser K177156; passwd K177156; chmod g+x /home/K177156/; chown :apache /home/K177156
+adduser K177157; passwd K177157; chmod g+x /home/K177157/; chown :apache /home/K177157
+adduser K177158; passwd K177158; chmod g+x /home/K177158/; chown :apache /home/K177158
+adduser K177159; passwd K177159; chmod g+x /home/K177159/; chown :apache /home/K177159
+adduser K177162; passwd K177162; chmod g+x /home/K177162/; chown :apache /home/K177162
+--------------------------------------------------------------------------------
+
+×Appendix.ユーザーディレクトリ一括作成スクリプト作成
+#vi addusers.sh
+--------------------------------------------------------------------------------
+#!/bin/bash
+
+FILE_U="addusers.txt"
+FILE_P="/etc/passwd"
+
+newusers $FILE_U
+
+for line in `cat $FILE_U`
+do
+    user_name=`echo $line | cut -d ':' -f 1`
+    txt=`cat $FILE_P | grep -e "^$user_name"`
+    user_id=`echo $txt | cut -d ':' -f 3`
+    group_id=`echo $txt | cut -d ':' -f 4`
+    home_dir=`echo $txt | cut -d ':' -f 6`
+    echo "USER_ID:${user_id} GROUP:${group_id} HOME_DIR:$home_dir"
+    cp -rf /etc/skel/* $home_dir/
+    chown -R $user_id  $home_dir
+    chgrp -R $group_id $home_dir
+done
+--------------------------------------------------------------------------------
+
+#vi addusers.txt
+--------------------------------------------------------------------------------
+K177001:K177001::::/home/K177001:/bin/bash
+K177004:K177004::::/home/K177004:/bin/bash
+K177006:K177006::::/home/K177006:/bin/bash
+K177007:K177007::::/home/K177007:/bin/bash
+K177010:K177010::::/home/K177010:/bin/bash
+K177013:K177013::::/home/K177013:/bin/bash
+K177014:K177014::::/home/K177014:/bin/bash
+K177016:K177016::::/home/K177016:/bin/bash
+K177017:K177017::::/home/K177017:/bin/bash
+K177018:K177018::::/home/K177018:/bin/bash
+K177019:K177019::::/home/K177019:/bin/bash
+K177020:K177020::::/home/K177020:/bin/bash
+K177022:K177022::::/home/K177022:/bin/bash
+K177023:K177023::::/home/K177023:/bin/bash
+K177026:K177026::::/home/K177026:/bin/bash
+K177025:K177025::::/home/K177025:/bin/bash
+K177030:K177030::::/home/K177030:/bin/bash
+K177033:K177033::::/home/K177033:/bin/bash
+K177034:K177034::::/home/K177034:/bin/bash
+K177035:K177035::::/home/K177035:/bin/bash
+K177042:K177042::::/home/K177042:/bin/bash
+K177046:K177046::::/home/K177046:/bin/bash
+K177047:K177047::::/home/K177047:/bin/bash
+K177052:K177052::::/home/K177052:/bin/bash
+K177053:K177053::::/home/K177053:/bin/bash
+K177057:K177057::::/home/K177057:/bin/bash
+K177059:K177059::::/home/K177059:/bin/bash
+K177061:K177061::::/home/K177061:/bin/bash
+K177065:K177065::::/home/K177065:/bin/bash
+K177103:K177103::::/home/K177103:/bin/bash
+K177114:K177114::::/home/K177114:/bin/bash
+K177115:K177115::::/home/K177115:/bin/bash
+K177116:K177116::::/home/K177116:/bin/bash
+K177117:K177117::::/home/K177117:/bin/bash
+K177118:K177118::::/home/K177118:/bin/bash
+K177120:K177120::::/home/K177120:/bin/bash
+K177122:K177122::::/home/K177122:/bin/bash
+K177124:K177124::::/home/K177124:/bin/bash
+K177125:K177125::::/home/K177125:/bin/bash
+K177126:K177126::::/home/K177126:/bin/bash
+K177129:K177129::::/home/K177129:/bin/bash
+K177130:K177130::::/home/K177130:/bin/bash
+K177131:K177131::::/home/K177131:/bin/bash
+K167033:K167033::::/home/K167033:/bin/bash
+K177141:K177141::::/home/K177141:/bin/bash
+K177145:K177145::::/home/K177145:/bin/bash
+K177149:K177149::::/home/K177149:/bin/bash
+K177150:K177150::::/home/K177150:/bin/bash
+K177154:K177154::::/home/K177154:/bin/bash
+K177156:K177156::::/home/K177156:/bin/bash
+K177157:K177157::::/home/K177157:/bin/bash
+K177158:K177158::::/home/K177158:/bin/bash
+K177159:K177159::::/home/K177159:/bin/bash
+K177162:K177162::::/home/K177162:/bin/bash
+--------------------------------------------------------------------------------

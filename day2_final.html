@@ -1,0 +1,111 @@
+<html>
+<head>
+	<title>タイトル</title>
+</head>
+<body>
+<hr>
+<h1>2.レイアウト</h1>
+<h2>2.1.行を変える</h2>
+あいうえお<br>かきくけこ
+
+<h2>2.2.画像や文字の場所を中央にする</h2>
+<CENTER>あいうえおかきくけこ</CENTER>
+
+<h2>2.3.見えないメモを書く</h2>
+<!-- さしすせそ --> 
+
+<hr>
+<h1>3.リンク</h1>
+<h2>3.1.別のページへ移動するリンクを作る</h2>
+<a href="http://www.yahoo.co.jp">あいうえお</a>
+<br>
+<a href="test.html">かきくけこ</a>
+ 
+<hr> 
+<h1>4.画像</h1>
+<h2>4.1.画像を表示する</h2>
+<img src="icon.jpg">
+
+<hr>
+<h1>5.文字</h1>
+<h2>5.1.文字の大きさや色を変える</h2>
+<font size="1">あいうえお</font>
+<font size="6">かきくけこ</font>
+<font color="red">さしすせそ</font>
+<font color="blue">たちつてと</font>
+
+<h2>5.2.文字を太くする</h2>
+<B>あいうえお</B>
+
+<h2>5.3.文字を傾ける（イタリック）</h2>
+<I>かきくけこ</I> 
+
+<h2>5.4.文字の下に線を書く（アンダーライン）</h2>
+<U>さしすせそ</U>
+
+<hr> 
+<h1>6.表</h1>
+<h2>6.1.TRタグやTDタグと組み合わせて．表を作る</h2>
+<h2>6.2.表の横方向を決める</h2>
+<h2>6.3.表の中の1マスを作る</h2>
+<table>
+    <tr>
+        <td>あ</td>
+        <td>い</td>
+        <td>う</td>
+        <td>え</td>
+        <td>お</td>
+    </tr>
+    <tr>
+        <td>か</td>
+        <td>き</td>
+        <td>く</td>
+        <td>け</td>
+        <td>こ</td>
+    </tr>
+</table>
+ 
+<hr>
+<h1>7.入力フォーム</h1>
+<h2>7.1.INPUTタグと組み合わせて，文字をサーバに送る</h2>
+<h2>7.2.文字を入力する場所を作る</h2>
+<h2>7.3.パスワードを入力する場所を作る</h2>
+<h2>7.4.画面には表示されないデータを作る</h2>
+<h2>7.5.送信ボタンを作る</h2>
+<form action="./connectDB.php" method="get">
+    <input type="text" name="address1" value="神奈川県">
+    <input type="text" name="address2" value="横浜市西区">
+    <input type="submit" value="送る">
+</form>
+ 
+<h2>7.6.ラジオボタンを使って，選ぶ</h2>
+<input type="radio" name="radio1" value="あいうえお">あいうえお
+<input type="radio" name="radio1" value="かきくけこ" checked>かきくけこ
+ 
+<h2>7.7.チェックボックスを使って，選ぶ</h2>
+<input type="checkbox" name="check1" value="あいうえお">あいうえお
+<input type="checkbox" name="check1" value="かきくけこ">かきくけこ
+<input type="checkbox" name="check1" value="さしすせそ">さしすせそ
+<input type="checkbox" name="check1" value="たちつてと">たちつてと
+
+<h2>7.8.セレクトボックスを作る</h2>
+<select name="select1">
+    <option value="あ">あ</option>
+    <option value="い">い</option>
+    <option value="う">う</option>
+    <option value="え">え</option>
+    <option value="お">お</option>
+</select>
+
+<h2>7.9.多くの文字を入力する場所を作る</h2>
+<form action="./connectDB2.php" method="post">
+    <textarea name="survey" rows="4" cols="40">
+        あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん０１２３４５６７８９
+    </textarea>
+    <br>
+    <input type="submit" value="送る">
+    <input type="reset" value="消す">
+</form>
+
+</body>
+</html>
